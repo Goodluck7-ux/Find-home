@@ -98,7 +98,7 @@ export default function SignUp() {
               <form action="" onSubmit={handleSubmit}>
                 <div className='w-30 h-40 m-auto'>
                   <div className='w-30 h-30 rounded-full' >
-                    <Image src='/photo1.avif' width={300} height={300} alt='profile' className='w-full h-full rounded-full' />
+                    <Image src='/mrniceguy.png' width={300} height={300} alt='profile' className='w-full h-full rounded-full' />
                   </div>
 
 

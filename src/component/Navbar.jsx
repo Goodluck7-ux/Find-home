@@ -15,13 +15,13 @@ export default function Navbar() {
       </div>
 
       {/* Links */}
-      <ul className="hidden md:flex gap-8 text-gray-500 font-bold text-sm cursor-pointer ">
-        <Link className='hover:bg-gray-100 p-2 rounded-full'>Properties</Link>
-        <Link className='hover:bg-gray-100 p-2 rounded-full'>Shop</Link>
-        <Link className='hover:bg-gray-100 p-2 rounded-full'>Messages</Link>
-        <Link className='hover:bg-gray-100 p-2 rounded-full'>Orders</Link>
-        <Link className='hover:bg-gray-100 p-2 rounded-full'>Admin</Link>
-      </ul>
+      <div className="hidden md:flex gap-8 text-gray-500 font-bold text-sm cursor-pointer ">
+        <Link href="/properties" className='hover:bg-gray-100 p-2 rounded-full' >Properties</Link>
+        <Link href="/shop" className='hover:bg-gray-100 p-2 rounded-full'>Shop</Link>
+        <Link href="/messages" className='hover:bg-gray-100 p-2 rounded-full'>Messages</Link>
+        <Link href="/orders" className='hover:bg-gray-100 p-2 rounded-full'>Orders</Link>
+        <Link href="/admin" className='hover:bg-gray-100 p-2 rounded-full'>Admin</Link>
+      </div>
 
       {/* Right */}
       <div className="flex items-center gap-4">

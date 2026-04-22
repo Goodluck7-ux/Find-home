@@ -28,9 +28,9 @@ export default function Navbar() {
         <button className="text-black text-xl bg-gray-200 hover:bg-yellow-300 p-2 rounded-full">
           <CiUser />
         </button>
-        <button className="bg-orange-500/70 text-white font-bold text-sm px-4 py-2 rounded-full">
+        <Link href="/sign-up" className="bg-orange-500/70 text-white font-bold text-sm px-4 py-2 rounded-full">
           Sign up
-        </button>
+        </Link>
       </div>
     </nav>
   )

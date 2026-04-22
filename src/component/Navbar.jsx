@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react'
 import { CiUser } from "react-icons/ci";
 
@@ -15,11 +16,11 @@ export default function Navbar() {
 
       {/* Links */}
       <ul className="hidden md:flex gap-8 text-gray-500 font-bold text-sm cursor-pointer ">
-        <li className='hover:bg-gray-100 p-2 rounded-full'>Properties</li>
-        <li className='hover:bg-gray-100 p-2 rounded-full'>Shop</li>
-        <li className='hover:bg-gray-100 p-2 rounded-full'>Messages</li>
-        <li className='hover:bg-gray-100 p-2 rounded-full'>Orders</li>
-        <li className='hover:bg-gray-100 p-2 rounded-full'>Admin</li>
+        <Link className='hover:bg-gray-100 p-2 rounded-full'>Properties</Link>
+        <Link className='hover:bg-gray-100 p-2 rounded-full'>Shop</Link>
+        <Link className='hover:bg-gray-100 p-2 rounded-full'>Messages</Link>
+        <Link className='hover:bg-gray-100 p-2 rounded-full'>Orders</Link>
+        <Link className='hover:bg-gray-100 p-2 rounded-full'>Admin</Link>
       </ul>
 
       {/* Right */}

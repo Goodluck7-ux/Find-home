@@ -72,13 +72,13 @@ export default async function PropertyDetails({ params }) {
           {/* EXTRA SCROLL CONTENT */}
           <div className="mt-10 space-y-6">
             <p className="text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              We have the best properties in all regions in the united states.
             </p>
             <p className="text-gray-600">
-              More content to enable scrolling...
+              Don't miss out on this opportunity...
             </p>
             <p className="text-gray-600">
-              Keep scrolling to see sticky effect...
+              Buy a property today and stand a chance of becoming a landlord...
             </p>
           </div>
         </div>

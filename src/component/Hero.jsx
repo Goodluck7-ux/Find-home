@@ -13,7 +13,7 @@ export default function Hero() {
                         Your home, your shop, your people
                     </span>
 
-                    <h1 className="text-5xl font-bold mt-6 leading-tight">
+                    <h1 className="text-5xl font-bold mt-6 leading-tight text-black">
                         Find a home you'll <br />
                         <span className="text-orange-500">love living in.</span>
                     </h1>

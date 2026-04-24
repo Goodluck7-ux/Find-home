@@ -1,4 +1,4 @@
-export function generateInvitationCode() {
+function generateInvitationCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = 'INV-';
     for (let i = 0; i < 9; i++) {
@@ -6,3 +6,4 @@ export function generateInvitationCode() {
     }
     return code;
   }
+  export { generateInvitationCode };

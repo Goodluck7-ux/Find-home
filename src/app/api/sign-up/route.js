@@ -1,5 +1,7 @@
 import User from "@/app/models/userModel";
 import connectToDb from "@/lib/connection";
+import { generateInvitationCode } from "@/lib/helpers";
+import { sendMail } from "@/lib/send-mail";
 import bcrypt from "bcryptjs";
 
 export const POST = async (req) => {
@@ -20,6 +22,10 @@ export const POST = async (req) => {
         //  we can use the field name in the db as the key and the value from the body as the value in the findOne method
         // const existingUser = await User.findOne({ userEmail:email });
         if(existingUser) {
+            const otp=generateInvitationCode();
+
+           
+
 
             return Response.json({ message: 'User already exists' }, { status: 400 });  
         }
@@ -35,7 +41,14 @@ export const POST = async (req) => {
                 password:hashedPassword 
             })
 
-            return Response.json({ message: 'User registered successfully'}, { status: 201 });      
+            if(!newUser){
+                    return Response.json({ message: 'Failed to create user' }, { status: 500 });
+                }
+            // send otp 
+            await sendMail(email, otp);
+            // store invite token (otp) in otp ta ble
+            const inviteToken=Invite
+            return Response.json({ message: 'User registered successfully', newUser}, { status: 201 });      
         }
     }
 

@@ -7,18 +7,23 @@ import Link from 'next/link';
 import Image from 'next/image';
 import BuyerSignup from './BuyerSignup';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 export default function SignUp() {
+
+  const router=useRouter()
 
   // inialization of use state
   const [errors, setErrors] = useState('')
   const [selectedRole, setSelectedRole] = useState('')
   const [inputData, setInputData] = useState({
-    
+
     fullname: "",
     email: "",
     password: "",
-    
+
   })
+
+  const [loading, setLoading] = useState(false)
 
   const handleselectedRole = (role) => {
     setSelectedRole(role)
@@ -34,9 +39,7 @@ export default function SignUp() {
   const validate = () => {
     let newErrors = {}
 
-    if (!inputData.picture) {
-      newErrors.picture = "Upload  picture"
-    }
+    
 
     if (!inputData.fullname) {
       newErrors.fullname = "please fill in Full name"
@@ -62,20 +65,28 @@ export default function SignUp() {
 
     const validationErrors = validate()
     if (Object.keys(validationErrors).length == 0) {
-
+      console.log("api sent")
       // send api request to the backend
-      try{
+      try {
+        setLoading(true)
 
-        const res=await axios.post("/api/sign-up", inputData)
+        const res = await axios.post("/api/sign-up", inputData)
         console.log(res)
-        if(res.ok){
+        if (res.status==201) {
 
+          // /store user email in the local storage
+          // LocalStorage.setItem("email", email);
+
+          setLoading(false)
+          router.push('/verify-otp')
         }
       }
       catch (error) {
+        setLoading(false)
+        setErr
+        setErrors(error.response.message)
         console.error("Error signing up:", error)
       }
-      setErrors('')
     }
     else {
       setErrors(validationErrors)
@@ -163,7 +174,7 @@ export default function SignUp() {
                 </div>
 
                 <div className='w-full py-4 px-4'>
-                  <button type='submit' className='w-80 bg-orange-600 py-3 text-white cursor-pointer rounded-full'>Create account</button>
+                  <button disabled={loading} type='submit' className={`w-80 ${loading ? 'bg-orange-500 text-black' : 'bg-orange-600'} py-3 text-white cursor-pointer rounded-full`}> {loading ? "loading..." : "create account"} </button>
                 </div>
 
                 <div className='w-70 m-auto'>

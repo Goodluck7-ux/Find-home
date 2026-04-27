@@ -1,3 +1,4 @@
+import InvitationModel from "@/app/models/InvitationModel";
 import User from "@/app/models/userModel";
 import connectToDb from "@/lib/connection";
 import { generateInvitationCode } from "@/lib/helpers";
@@ -22,7 +23,7 @@ export const POST = async (req) => {
         //  we can use the field name in the db as the key and the value from the body as the value in the findOne method
         // const existingUser = await User.findOne({ userEmail:email });
         if(existingUser) {
-            const otp=generateInvitationCode();
+           
 
            
 
@@ -45,9 +46,15 @@ export const POST = async (req) => {
                     return Response.json({ message: 'Failed to create user' }, { status: 500 });
                 }
             // send otp 
+             const otp=generateInvitationCode();
             await sendMail(email, otp);
             // store invite token (otp) in otp ta ble
-            const inviteToken=Invite
+           await InvitationModel.create({
+                createdFor:newUser._id,
+                email:newUser.email,
+                otp,
+                expiresAt:Date.now()
+            })
             return Response.json({ message: 'User registered successfully', newUser}, { status: 201 });      
         }
     }

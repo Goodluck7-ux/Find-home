@@ -1,7 +1,7 @@
 
 import mongoose from "mongoose"
 const invitationSchema = new mongoose.Schema({
-    createdFor:{
+    createdFor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
     },
@@ -11,10 +11,10 @@ const invitationSchema = new mongoose.Schema({
         required: true
     },
 
-    otp:{
+    otp: {
         type: String,
         required: true
-    },  
+    },
 
     isUsed: {
         type: Boolean,
@@ -28,21 +28,21 @@ const invitationSchema = new mongoose.Schema({
 
     expiresAt: {
         type: Date,
-    // Date.now is in milliseconds, so we add 10 minutes (10 * 60 * 1000)
-    default: () => Date.now() + 10 * 60 * 1000
+        // Date.now is in milliseconds, so we add 10 minutes (10 * 60 * 1000)
+        default: () => new Date(Date.now() + 10 * 60 * 1000)
 
 
     },
 
-    usedAt:{
+    usedAt: {
         type: Date,
     }
 
-}, {timestamps:true})
+}, { timestamps: true })
 
 
-    const InvitationModel = mongoose.models.invitation || 
+const InvitationModel = mongoose.models.invitation ||
     mongoose.model("invitation", invitationSchema)
 
-    export default InvitationModel;
+export default InvitationModel;
 

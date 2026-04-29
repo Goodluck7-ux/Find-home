@@ -14,13 +14,17 @@ export const POST =async (req)=>{
        }
 
     //   find user with otp
-    const user=await InvitationModel.findOne({email,otp, isUsed:false})
+    const capitalizedOtp=otp.toUpperCase()
+    
+    console.log("OTP FROM REQUEST", capitalizedOtp)
+    const user=await InvitationModel.findOne({email, otp:capitalizedOtp, isUsed:false})
+    console.log("USER FROM DB", user)
     if(!user){
         return Response.json({message:"otp invalid or email invalid"}, {status:400})
     }
 
     // check if otp is expires
-    if(user.expiresAt<user.createdAt){
+    if(user.expiresAt < Date.now()){
         return Response.json({message:"otp expired"}, {status:400})
     }
     user.isUsed=true

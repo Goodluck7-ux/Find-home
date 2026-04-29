@@ -1,7 +1,7 @@
 "use client";
+import ChatWindow from "@/component/ChatWindow";
+import Sidebar from "@/component/sidebar";
 import { useState } from "react";
-import Sidebar from "../components/Sidebar";
-import ChatWindow from "../components/ChatWindow";
 
 export default function Page() {
   const [activeUser, setActiveUser] = useState("Maria Silva");

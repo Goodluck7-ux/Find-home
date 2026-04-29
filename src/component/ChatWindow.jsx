@@ -1,33 +1,22 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import MessageBubble from "./MessageBubble";
 import ChatInput from "./ChatInput";
+import MessageBubble from "./messageBubble";
 
 export default function ChatWindow({ activeUser }) {
   const bottomRef = useRef(null);
 
-  const [messages, setMessages] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(activeUser);
-      return saved
-        ? JSON.parse(saved)
-        : [
-            {
-              text: "Hi! Is the villa still available next weekend?",
-              sender: false,
-            },
-            {
-              text: "Yes, would Saturday at 3pm work for a viewing?",
-              sender: true,
-            },
-          ];
-    }
-  });
+  const [messages, setMessages] = useState([]);
 
-  // Save messages per user
+  // When user changes → show default new message
   useEffect(() => {
-    localStorage.setItem(activeUser, JSON.stringify(messages));
-  }, [messages, activeUser]);
+    setMessages([
+      {
+        text: `Start a new conversation with ${activeUser}`,
+        sender: false,
+      },
+    ]);
+  }, [activeUser]);
 
   // Auto scroll
   useEffect(() => {
@@ -37,18 +26,22 @@ export default function ChatWindow({ activeUser }) {
   const handleSend = (newMessage) => {
     if (!newMessage.trim()) return;
 
+    // Add user message
     setMessages((prev) => [
       ...prev,
       { text: newMessage, sender: true },
     ]);
 
-    // Fake reply
+    // Auto reply
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
-        { text: "Got it 👍", sender: false },
+        {
+          text: "We are currently busy but we will reply you shortly.",
+          sender: false,
+        },
       ]);
-    }, 1000);
+    }, 600);
   };
 
   return (
@@ -66,7 +59,7 @@ export default function ChatWindow({ activeUser }) {
 
       {/* Messages */}
       <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-        {messages?.map((msg, i) => (
+        {messages.map((msg, i) => (
           <MessageBubble key={i} text={msg.text} isSender={msg.sender} />
         ))}
         <div ref={bottomRef}></div>

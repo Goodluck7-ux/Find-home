@@ -32,13 +32,20 @@ export default function SignIn() {
   }
 
    // function for formHandling
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         // prevent form default submission
       e.preventDefault()
 
       const validationErrors = validate()
       if(Object.keys(validationErrors).length == 0){
          setErrors('')
+         const res=await axios.post('/api/sign-in', inputData)
+         if(res.status == 200){
+          // store token in local storage
+          localStorage.setItem('token', res.data.token)
+          // route to dashbaord
+          router.push('/dashboard')
+         }
       }
       else{
       setErrors(validationErrors)

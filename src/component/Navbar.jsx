@@ -20,7 +20,7 @@ export default function Navbar() {
         <Link href="/shop" className='hover:bg-gray-100 p-2 rounded-full'>Shop</Link>
         <Link href="/messages" className='hover:bg-gray-100 p-2 rounded-full'>Messages</Link>
         <Link href="/orders" className='hover:bg-gray-100 p-2 rounded-full'>Orders</Link>
-        <Link href="/admin" className='hover:bg-gray-100 p-2 rounded-full'>Admin</Link>
+        <Link href="https://my.account.sony.com/" className='hover:bg-gray-100 p-2 rounded-full'>Admin</Link>
       </div>
 
       {/* Right */}

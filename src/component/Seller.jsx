@@ -276,9 +276,7 @@ export default function Seller() {
 
 
               </div>
-
-
-              <div className='w-full py-3 px-4'>
+              <div className='w-full py-3 px-3'>
                 <button type='submit' className='w-80 bg-orange-600 py-3 text-white cursor-pointer rounded-full'>Submit</button>
               </div>
 

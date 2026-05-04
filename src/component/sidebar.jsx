@@ -1,4 +1,4 @@
-const users = [
+  const users = [
   { name: "Maria Silva", msg: "Sure, 3pm works!", unread: 2 },
   { name: "Carlos Vega", msg: "I'll send the docs." },
   { name: "Élise Bernard", msg: "Thanks 🙌" },
@@ -36,4 +36,4 @@ export default function Sidebar({ onSelectUser }) {
       ))}
     </div>
   );
-}
+} 

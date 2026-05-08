@@ -39,7 +39,8 @@ export const POST = async (req) => {
             const newUser=await User.create({
                 firstName:fullname,
                 email,
-                password:hashedPassword 
+                password:hashedPassword,
+                
             })
 
             if(!newUser){

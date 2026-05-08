@@ -1,58 +1,91 @@
 "use client"
 import React, { useState } from 'react'
 import Link from 'next/link'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 export default function SignIn() {
-   // inialization of 
+
+  const router=useRouter()
+  // inialization of 
   const [errors, setErrors] = useState("")
   const [inputData, setInputData] = useState({
     email: "",
     password: "",
   })
-
+  const [loading, setLoading] = useState(false)
   // function for handleOnChange
   const handleOnChange = (e) => {
     const { name, value } = e.target
     setInputData({ ...inputData, [name]: value })
   }
 
-   // validate by Checking if the input is empty
+  // validate by Checking if the input is empty
 
   const validate = () => {
     let newErrors = {}
 
-    if(!inputData.email){
-      newErrors.email= "please fill  in your email"
+    if (!inputData.email) {
+      newErrors.email = "please fill  in your email"
     }
 
-    if(!inputData.password ){
-      newErrors.password= "please fill in your password"
+    if (!inputData.password) {
+      newErrors.password = "please fill in your password"
     }
 
     return newErrors
   }
 
-   // function for formHandling
-    const handleSubmit = async (e) => {
-        // prevent form default submission
-      e.preventDefault()
+  // function for formHandling
+  const handleSubmit = async (e) => {
+    // prevent form default submission
+    e.preventDefault()
 
-      const validationErrors = validate()
-      if(Object.keys(validationErrors).length == 0){
-         setErrors('')
-         const res=await axios.post('/api/sign-in', inputData)
-         if(res.status == 200){
+    const validationErrors = validate()
+    if (Object.keys(validationErrors).length == 0) {
+      setErrors('')
+      setLoading(true)
+      try {
+        const res = await axios.post('/api/sign-in', inputData)
+
+
+        if (res.status == 200) {
+          setLoading(false)
+
+         
           // store token in local storage
-          localStorage.setItem('token', res.data.token)
-          // route to dashbaord
-          router.push('/dashboard')
-         }
+          localStorage.setItem('token', res.data.data.token)
+
+          // if the user is a buyer, route to the buyer's dashboard
+          if (res.data.data.userRole === "buyer") {
+            // route to dashbaord
+            router.push('/dashboard')
+          }
+
+          else if (res.data.data.userRole === "seller") {
+            // route to seller's dashboard
+            router.push('/seller/dashboard')
+          }
+
+          else if (res.data.data.userRole === "admin") {
+            // route to admin dashboard
+            router.push('/admin/dashboard')
+          }
+        }
+        else {
+          setErrors(validationErrors)
+          console.log(errors)
+        }
       }
-      else{
-      setErrors(validationErrors)
-      console.log(errors)
-      }
+      catch (error) {
+      setLoading(false)
+      setErrors(error.response.data.message || "An error occurred during sign-in")
+      console.error("Error signing in:", error)
+    }
     }
 
+    
+
+  }
   return (
     <>
       <div className='w-full h-full bg-orange-50 flex justify-center items-center gap-2 py-10'>
@@ -72,14 +105,14 @@ export default function SignIn() {
                 <input type="email" name='email' placeholder='ngalakagift@gmail.com' onChange={handleOnChange} className='w-full border border-black/25 py-2 px-2 outline-none hover:outline-1 rounded-full placeholder:px-3 text-sm' />
               </div>
 
-                {errors.email &&(<p className='text-red-500 font-mono font-semibold text-xs italic'>{errors.email}</p>)}
+              {errors.email && (<p className='text-red-500 font-mono font-semibold text-xs italic'>{errors.email}</p>)}
 
               <div className=''>
                 <label className='block px-2 py-2 text-sm'>Password</label>
                 <input type="password" name='password' placeholder='............' onChange={handleOnChange} className='w-full border border-black/25 py-2 px-2 outline-none hover:outline-1 rounded-full placeholder:px-3 text-sm' />
               </div>
-                
-                 {errors.password &&(<p className='text-red-500 font-mono font-semibold text-xs italic'>{errors.password}</p>)}
+
+              {errors.password && (<p className='text-red-500 font-mono font-semibold text-xs italic'>{errors.password}</p>)}
 
               <div className='w-full flex justify-between items-center gap-2 py-4 px-3'>
                 <Link href="/sign-up" className='italic text-sm'>I don't have an account</Link>
@@ -87,9 +120,9 @@ export default function SignIn() {
               </div>
 
               <div className='w-full py-3 px-4'>
-                <button type='submit' className='w-80 bg-orange-600 py-3 text-white cursor-pointer rounded-full'>Sign in</button>
+                <button disabled={loading} type='submit' className='w-80 bg-orange-600 py-3 text-white cursor-pointer rounded-full'> {loading ? "Signing in..." : "Sign in"}</button>
               </div>
-                  
+
               <div className='w-70 m-auto pb-2'>
                 <p className='text-sm italic '>By continuing you agree to our <Link href="/terms" className='text-sm underline'>Terms</Link></p>
               </div>

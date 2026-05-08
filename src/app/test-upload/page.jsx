@@ -17,7 +17,6 @@ export default function PropertyForm() {
     reset,
   } = useForm();
 
-  // HANDLE IMAGE SELECTION
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
 
@@ -35,7 +34,7 @@ export default function PropertyForm() {
     setPreviewImages((prev) => [...prev, ...imagePreviews]);
   };
 
-  // REMOVE IMAGE
+  
   const removeImage = (index) => {
     const updatedFiles = [...selectedImages];
     updatedFiles.splice(index, 1);
@@ -47,7 +46,7 @@ export default function PropertyForm() {
     setPreviewImages(updatedPreviews);
   };
 
-  // UPLOAD TO CLOUDINARY
+ 
   const uploadImagesToCloudinary = async () => {
     const uploadedImages = [];
 
@@ -71,7 +70,6 @@ export default function PropertyForm() {
     return uploadedImages;
   };
 
-  // SUBMIT FORM
   const onSubmit = async (data) => {
     try {
       setLoading(true);

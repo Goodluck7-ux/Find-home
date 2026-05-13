@@ -2,6 +2,14 @@ import mongoose from "mongoose";
 
 const PropertySchema = new mongoose.Schema(
   {
+
+    listedBy: {
+      type:mongoose.Schema.Types.ObjectId,
+      ref: "user", // reference to the user who listed the property, 
+      // REMEBER TO ALWAYS USE CAPITALE LETTER TO NAME YOU MODEL "user" is not "User"
+      required: true,
+    },
+
     rooms: {
       type: Number,
       required: true,
@@ -14,14 +22,24 @@ const PropertySchema = new mongoose.Schema(
 
     propertyType: {
       type: String,
-      enum: ["bungalow", "duplex"],
+      enum: ["bungalow", "duplex", "studio"],
       required: true,
     },
 
-    location:{
+    country:{
         type: String,
         required: true,
     },
+
+    city:{
+        type: String,
+        required: true,
+    },
+
+    price:{
+        type: Number,
+        required: true,
+    },  
 
     approved:{
         type: Boolean,
@@ -38,5 +56,7 @@ const PropertySchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Property ||
+const PropertyModel= mongoose.models.Property ||
   mongoose.model("Property", PropertySchema);
+
+  export default PropertyModel;

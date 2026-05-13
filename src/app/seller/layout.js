@@ -13,7 +13,7 @@ export default function SellerRootLayout({ children }) {
       lang="en"
      
     >
-      <body className="min-h-full flex w-full">
+      <body className="min-h-full flex w-full bg-red-600 relative">
         <div className="w-64 flex-1">
           <Sidebar/>
         </div>

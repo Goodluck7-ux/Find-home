@@ -4,6 +4,8 @@ import Sidebar from "@/component/Sidebar";
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
+
+// install react-hook-form
 import { useForm } from "react-hook-form";
 
 export default function PropertyForm() {
@@ -11,6 +13,7 @@ export default function PropertyForm() {
     const [selectedImages, setSelectedImages] = useState([]);
     const [previewImages, setPreviewImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [successMessage, setSuccessMessage] = useState("");
 
     const formatPrice = (value) => {
         // Remove non-digit characters
@@ -103,25 +106,32 @@ export default function PropertyForm() {
                 propertyType: data.propertyType,
                 city: data.city,
                 country: data.country,
-                price: Number(data.price),
-                images: imageUrls,
+                price: Number(data.price) || 50000,
+                propertyImages: imageUrls,
             };
+            console.log("THIS IS THE FORM DATA", data)
 
             console.log("Payload to be sent to backend:", payload);
 
-              const res = await axios.post("/api/properties", payload);
+            const res = await axios.post("/api/properties", payload, {
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
 
-              if (res.status === 201) {
-                alert("Property Uploaded Successfully");
+            console.log(res)
+
+            if (res.data) {
+                setSuccessMessage("Property uploaded successfully!");
 
                 reset();
 
                 setSelectedImages([]);
                 setPreviewImages([]);
-              }
+            }
         } catch (error) {
             console.log(error);
-            alert("Something went wrong");
+
         } finally {
             setLoading(false);
         }
@@ -129,7 +139,16 @@ export default function PropertyForm() {
 
     return (
 
-        <>
+        <div className="">
+
+            {
+                successMessage && (
+                    <div className="absolute w-60 h-20 bg-green-700 rounded-md r-0 t-60 flex items-center justify-center">
+                        <p className="text-white font-medium">  {successMessage} </p>
+                    </div>
+                )
+            }
+
             <div className="max-w-3xl mx-auto p-6">
                 <h1 className="text-3xl font-bold mb-6">
                     Add Property
@@ -334,6 +353,6 @@ export default function PropertyForm() {
                     </button>
                 </form>
             </div>
-        </>
+        </div>
     );
 }

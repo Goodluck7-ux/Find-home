@@ -4,11 +4,11 @@ import { generateInvitationCode } from "@/lib/helpers"
 import { sendMail } from "@/lib/send-mail"
 import { VscDebugDisconnect } from "react-icons/vsc"
 
-export const POST = async (res) => {
+export const POST = async (req) => {
 
     try {
 
-        const { email } = await res.json()
+        const { email } = await req.json()
 
         // validate for email
         if (!email) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { properties } from "../data/properties";
 import SearchBar from "./SearchBar";
 import { motion } from "framer-motion";
@@ -10,6 +10,17 @@ export default function PropertySection() {
     const [search, setSearch] = useState("");
     const [type, setType] = useState("All");
     const [maxPrice, setMaxPrice] = useState(1000000);
+
+    const fetchProperties = async () => {   
+        const res=await axios.get("/api/properties")
+        console.log("Fetched properties:", res.data);
+        
+    }
+
+    useEffect(() => {
+        fetchProperties();
+    }, 
+    [])
 
     const filteredProperties = properties.filter((property) => {
         const matchesSearch =

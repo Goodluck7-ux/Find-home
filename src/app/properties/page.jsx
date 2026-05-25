@@ -1,3 +1,4 @@
+"use client"
 import PropertySection from '@/component/PropertySection'
 import React from 'react'
 

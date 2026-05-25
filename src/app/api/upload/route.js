@@ -7,7 +7,6 @@ cloudinary.config({
 });
 
 export async function POST(req) {
-<<<<<<< HEAD
   const data = await req.formData();
   const file = data.get("file");
 
@@ -28,7 +27,6 @@ export async function POST(req) {
   });
 }
 
-=======
   try {
     const data = await req.formData();
     const file = data.get("file");
@@ -56,4 +54,3 @@ export async function POST(req) {
     return Response.json({ error: error.message }, { status: 500 });
   }
 }
->>>>>>> d0bc3176961c95c7d221325ad00ffb9535566fd9

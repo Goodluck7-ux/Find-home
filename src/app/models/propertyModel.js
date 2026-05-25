@@ -10,6 +10,11 @@ const PropertySchema = new mongoose.Schema(
       required: true,
     },
 
+    propertyTitle: {
+      type: String,
+      required: true,
+    },
+
     rooms: {
       type: Number,
       required: true,
@@ -24,6 +29,11 @@ const PropertySchema = new mongoose.Schema(
       type: String,
       enum: ["bungalow", "duplex", "studio"],
       required: true,
+    },
+
+    propertySize:{
+      type:Number,
+      required: true, 
     },
 
     country:{
@@ -41,15 +51,26 @@ const PropertySchema = new mongoose.Schema(
         required: true,
     },  
 
-    approved:{
-        type: Boolean,
-        default: false,
+    status:{
+        type: String,
+        enum:["approved", "rejected", "pending"],
+        default:"pending"
+    },
+
+    rejectionReason:{
+      type:String,
+
     },
 
     propertyImages: {
       type: [String],
       required: true,
     },
+
+    featuredProperty:{
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,

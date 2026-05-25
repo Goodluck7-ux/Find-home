@@ -60,6 +60,9 @@ export const POST = async (req) => {
     }
     catch (error) {
         console.error("SIGN_IN API ERROR:", error)
+        if(error.response){
+            set
+        }
         return Response.json({ message: "Internal Server Error" }, { status: 500 })
     }
 }

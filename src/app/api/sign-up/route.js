@@ -36,10 +36,14 @@ export const POST = async (req) => {
             const salt= bcrypt.genSaltSync(16)
             const hashedPassword = await bcrypt.hash(password, salt);
             // create a new user
+            // invitation expiration time
+            const expiresAt= new Date( Date.now() +10 *60 *1000);
             const newUser=await User.create({
                 firstName:fullname,
                 email,
                 password:hashedPassword,
+
+                
                 
             })
 
@@ -54,7 +58,7 @@ export const POST = async (req) => {
                 createdFor:newUser._id,
                 email:newUser.email,
                 otp,
-                expiresAt:Date.now()
+                expiresAt
             })
             return Response.json({ message: 'User registered successfully', newUser}, { status: 201 });      
         }

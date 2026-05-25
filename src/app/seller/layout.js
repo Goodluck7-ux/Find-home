@@ -1,4 +1,8 @@
-import Sidebar from "@/component/Sidebar";
+import Sidebar from "@/component/sidebar";
+import { AuthProvider } from "../context/AuthContext";
+
+
+
 
 
 
@@ -11,16 +15,26 @@ export default function SellerRootLayout({ children }) {
   return (
     <html
       lang="en"
-     
+
     >
-      <body className="min-h-full flex w-full bg-red-600 relative">
-        <div className="w-64 flex-1">
-          <Sidebar/>
-        </div>
+      <body className="">
+          <AuthProvider>
+
+
+        {/* <div className="w-64 flex-1">
+          <Sidebar />
+        </div> */}
 
         <div className="flex-1">
+          
+         
           {children}
+
+
         </div>
+
+          </AuthProvider>
+        
       </body>
     </html>
   );

@@ -3,9 +3,10 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 export default function SignIn() {
 
-  const router=useRouter()
+  const router = useRouter()
   // inialization of 
   const [errors, setErrors] = useState("")
   const [inputData, setInputData] = useState({
@@ -48,42 +49,61 @@ export default function SignIn() {
         const res = await axios.post('/api/sign-in', inputData)
 
 
-        if (res.status == 200) {
-          setLoading(false)
 
-         
-          // store token in local storage
-          localStorage.setItem('token', res.data.data.token)
 
-          // if the user is a buyer, route to the buyer's dashboard
-          if (res.data.data.userRole === "buyer") {
-            // route to dashbaord
-            router.push('/dashboard')
-          }
 
-          else if (res.data.data.userRole === "seller") {
-            // route to seller's dashboard
-            router.push('/seller/dashboard')
-          }
+        // store token in local storage
+        localStorage.setItem('token', res.data.data.token)
 
-          else if (res.data.data.userRole === "admin") {
-            // route to admin dashboard
-            router.push('/admin/dashboard')
-          }
+        // if the user is a buyer, route to the buyer's dashboard
+        if (res.data.data.userRole === "buyer") {
+          // route to dashbaord
+          router.push('/dashboard')
         }
-        else {
-          setErrors(validationErrors)
-          console.log(errors)
+
+        else if (res.data.data.userRole === "seller") {
+          // route to seller's dashboard
+          router.push('/seller/dashboard')
         }
+
+        else if (res.data.data.userRole === "admin") {
+          // route to admin dashboard
+          router.push('/admin/dashboard')
+        }
+
+
       }
       catch (error) {
-      setLoading(false)
-      setErrors(error.response.data.message || "An error occurred during sign-in")
-      console.error("Error signing in:", error)
-    }
+
+        
+        setLoading(false);
+        if (error.response) {
+          // either you create custome messages
+          // toast.error("Invalid Credentials")
+          // or use erro messages from the API
+          toast.error(error.response.data.message || "invalid logi detials")
+          
+        }
+        else if (error.request) {
+          // either you create custome messages
+          // toast.error("Invalid Credentials")
+          setErrors("Invalid Logins")
+          // or use erro messages from the API
+          toast.error("Network error, check Internet connection")
+          
+        }
+
+        else {
+          toast.error("Server Error")
+         
+        }
+
+
+        console.error("Error signing in:", error)
+      }
     }
 
-    
+
 
   }
   return (
@@ -99,6 +119,8 @@ export default function SignIn() {
 
           <div className='w-full h-auto'>
             <form action="" onSubmit={handleSubmit}>
+
+              {errors && (<p className='text-red-600'>{errors}</p>)}
 
               <div className=''>
                 <label className='block px-2 py-2 text-sm'>Email</label>

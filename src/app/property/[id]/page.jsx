@@ -4,7 +4,7 @@ import { FiMapPin, FiMessageCircle } from "react-icons/fi";
 import { FaBed, FaBath } from "react-icons/fa";
 
 export default async function PropertyDetails({ params }) {
-  const { id } = await params; // ✅ IMPORTANT FIX
+  const { id } = await params; // we need to get the value of the query params from the url
 
   const property = properties.find((p) => p.id === id);
 

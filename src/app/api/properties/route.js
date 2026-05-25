@@ -5,7 +5,7 @@ import connectToDb from "@/lib/connection";
 import { authorizeRoles } from "@/lib/verify-roles";
 import { authenticateRequest } from "@/lib/verify-token";
 
-export  const POST = async (req, res) => {
+export const POST = async (req, res) => {
 
     // check for authentication
     const authResult = authenticateRequest(req);
@@ -22,12 +22,31 @@ export  const POST = async (req, res) => {
     }
 
     // Handle POST request
-    const { rooms, bathrooms, propertyType, country, city, price, propertyImages } =await req.json();
+    // destructure the request body to get the property details
+    const {
+        propertyTitle,
+        propertySize,
+        featuredProperty,
+        rooms,
+        bathrooms,
+        propertyType,
+        country,
+        city,
+        price,
+        propertyImages
+    } = await req.json();
 
     console.log("POST request received with data:", req.body);
 
     //   validate the input data
-    if (!rooms || !bathrooms || !propertyType || !country || !city || !propertyImages) {
+    if (!propertySize ||
+        !propertyTitle ||
+        !rooms ||
+        !bathrooms ||
+        !propertyType ||
+        !country ||
+        !city ||
+        !propertyImages) {
         return Response.json({ message: "All fields are required" }, { status: 400 });
     }
 
@@ -36,6 +55,9 @@ export  const POST = async (req, res) => {
         await connectToDb();
         const newProperty = await PropertyModel.create({
             listedBy: authResult.userId,
+            propertyTitle,
+            propertySize,
+            featuredProperty: featuredProperty || false, // default to false if not provided
             rooms,
             bathrooms,
             propertyType,
@@ -66,16 +88,23 @@ export  const POST = async (req, res) => {
 
     catch (error) {
         console.error("Error creating property:", error);
-        return Response.json({ message: "Failed to create property" }, { status: 500 });
+        return Response.json({
+            message: "Failed to create property",
+            error: error.message
+        }, { status: 500 });
     }
 }
 
+
+// GET request handler to fetch all properties from the database
 export const GET = async (req, res) => {
 
     try {
         await connectToDb();
-      
-        const properties = await PropertyModel.find().populate("listedBy", "firstName email -_id")
+
+        const properties = await PropertyModel.find().
+            populate("listedBy", "firstName email -_id").
+            sort({ createdAt: -1 })
         return Response.json({ properties }, { status: 200 });
     }
 

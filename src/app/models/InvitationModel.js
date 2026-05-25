@@ -29,7 +29,7 @@ const invitationSchema = new mongoose.Schema({
     expiresAt: {
         type: Date,
         // Date.now is in milliseconds, so we add 10 minutes (10 * 60 * 1000)
-        default: () => new Date(Date.now() + 10 * 60 * 1000)
+        
 
 
     },

@@ -1,8 +1,5 @@
-import Sidebar from "@/component/sidebar";
+// import Sidebar from "@/component/sidebar";
 import { AuthProvider } from "../context/AuthContext";
-
-
-
 
 
 

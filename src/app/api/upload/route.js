@@ -25,7 +25,7 @@ export async function POST(req) {
   return Response.json({
     url: uploadResult.secure_url,
   });
-}
+
 
   try {
     const data = await req.formData();

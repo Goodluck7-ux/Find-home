@@ -10,6 +10,7 @@ export default function ProtectedRoutes({
     allowedRoles = []
 }) {
     const { user, loading, isAuthenticated } = useAuth();
+   // router used to navigate to different pages in the application, in this case it is used to redirect the user to the sign-in page if they are not authenticated or if they do not have the required role to access the protected route. 
     const router = useRouter();
 
     useEffect(() => {

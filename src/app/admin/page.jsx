@@ -1,11 +1,15 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ShieldCheck, Home, Users, Box, Plus } from 'lucide-react';
 import AdminsFirstComponent from '@/component/AdminsFirstComponent';
 import { ListingRow, UserRow, ProductCard } from '@/component/AdminsSecondComponent';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('Listings');
+  const [properties, setProperties]=useState([]);
 
   const listings = [
     { id: 1, title: 'Riverside Cottage', author: 'New Agent', time: '2 hours ago' },
@@ -21,6 +25,50 @@ export default function AdminDashboard() {
     { id: 1, title: 'Velvet Chair', price: 320, stock: 12, image: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=200' },
     { id: 2, title: 'Oak Desk', price: 450, stock: 5, image: 'https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=200' }
   ];
+// function to get pending  propertiees fromt the db
+
+  const fetchProperties= async ()=>{
+    try{
+    
+
+        const res=await axios.get('/api/properties',{
+          headers:{
+            Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        console.log(res.data.properties)
+        setProperties(res.data.properties)
+      
+
+    
+
+    }
+    catch(error){
+      console.error("Error fetching properties", error)
+      toast.error("failed to fetch Properties");
+    }
+  }
+
+  useEffect(()=>{
+    fetchProperties();
+  }, []);
+// api to handle property approval
+
+  const handleApprove=async()=>{
+    try{  
+      const res=axios.patch(`/api/properties/approve/{property._id}`,{
+        headers:{
+          "Authorization":`Bearer ${localStorage.getItem("token")}`
+        }
+      })
+
+      toast.success("property approved successfully");
+    }
+    catch(error){
+      console.error("Error approving property", error)
+      toast.error("failed to approve property");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#FDF8F3] pb-20 pt-16 px-6 md:px-12">
@@ -49,8 +97,7 @@ export default function AdminDashboard() {
         <div className="bg-white rounded-[3.5rem] p-10 md:p-14 shadow-sm border border-orange-50/50">
           
           {/* Tab Switcher - Correcting the background colors */}
-          <div className="flex gap-3 mb-12 bg-[#F3EFEA] p-2 rounded-full w-fit">
-            {['Listings', 'Users', 'Products'].map((tab) => (
+           {['Listings', 'Users', 'Products'].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -63,13 +110,12 @@ export default function AdminDashboard() {
                 {tab}
               </button>
             ))}
-          </div>
 
           {/* List/Grid Content */}
           <div className="transition-all duration-300">
             {activeTab === 'Listings' && (
                <div className="divide-y divide-gray-50">
-                 {listings.map(item => <ListingRow key={item.id} {...item} />)}
+                 {properties.length > 0 && properties.map(item => <ListingRow key={item._id} {...item} onApprove={handleApprove} />)}
                </div>
             )}
 

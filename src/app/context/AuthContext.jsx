@@ -25,6 +25,8 @@ export const AuthProvider = ({ children }) => {
             if (payload.exp < currentTime) {
                 localStorage.removeItem('token');
                 setUser(null);
+                toast.error("Login");
+                router.push('/sign-in');
             } else {
                 setUser(payload);
             }

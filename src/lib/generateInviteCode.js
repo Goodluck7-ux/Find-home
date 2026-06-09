@@ -1,3 +1,5 @@
+
+// generate invitation code on  user registeration
 function generateInvitationCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let code = 'INV-';

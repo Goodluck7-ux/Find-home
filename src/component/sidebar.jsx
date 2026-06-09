@@ -23,7 +23,7 @@ export default function Sidebar(props) {
                 id: 3,
                 text: "view Agents",
                 url: '/view-agents',
-                role: [ "admin"]
+                role: ["admin"]
             },
 
             {
@@ -43,11 +43,14 @@ export default function Sidebar(props) {
     return (
         <div className='w-64 h-screen bg-black'>
             <div>
-                <ul className='flex flex-col items-start p-4 h-full w-full'> 
+                <ul className='flex flex-col items-start p-4 h-full w-full'>
                     {menuItems.map((item) => (
-                        <Link href={item.url} key={item.id} className='text-white text-lg font-medium mb-4 cursor-pointer'>
-                            {item.text}
-                        </Link>
+                        
+                            item.role.includes(props.userRole) && (<Link href={item.url} key={item.id} className='text-white text-lg font-medium mb-4 cursor-pointer'>
+                                {item.text}
+                            </Link>)
+                        
+
                     ))}
                 </ul>
             </div>

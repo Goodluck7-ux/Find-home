@@ -8,7 +8,8 @@ export function authenticateRequest(req) {
 
 //   console.log("Authorization header:", authHeader);
 
-//  if the authorization header is missing or does not start with "Bearer ", 
+//  if the authorization header is missing or does not start
+// with "Bearer ", 
 // return an error response
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return {
@@ -19,7 +20,7 @@ export function authenticateRequest(req) {
     };
   }
 
-//   extract the token from the authorization header
+//   extract the token from the authorization header((Bearer token)
   const token = authHeader.split(" ")[1];
 
   try {

@@ -7,6 +7,20 @@ cloudinary.config({
 });
 
 export async function POST(req) {
+
+   // check for authentication
+      const authResult = authenticateRequest(req);
+      console.log("Authentication result:", authResult);
+      if (authResult.error) {
+  
+          return authResult.error;
+      }
+  
+      // check if the user is an admin or seller
+      const roleResult = authorizeRoles(authResult, ["admin", "seller"]);
+      if (roleResult) {
+          return roleResult;
+      }
   const data = await req.formData();
   const file = data.get("file");
 

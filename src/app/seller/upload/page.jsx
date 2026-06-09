@@ -118,7 +118,7 @@ export default function PropertyForm() {
 
             console.log("Payload to be sent to backend:", payload);
 
-            const res = await axios.post("/api/properties", payload, {
+            const res = await axios.post("/api/properties",  {
                 headers: {
                     "Authorization": `Bearer ${localStorage.getItem("token")}`,
                 },

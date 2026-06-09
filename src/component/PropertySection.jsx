@@ -14,11 +14,20 @@ export default function PropertySection() {
     // 1. Initialize state to match the expected API object structure
     const [data, setData] = useState({ properties: [] });
     const [loading, setLoading] = useState(true);
+    const token= localStorage.getItem("token");
 
     const fetchProperties = async () => {
         try {
             setLoading(true);
-            const res = await axios.get("/api/properties");
+            const res = await axios.get("/api/properties", {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            // add token to authorization headers
+
+
             // Assuming res.data is { properties: [...] }
             console.log("fetched data", res.data)
             setData(res.data);

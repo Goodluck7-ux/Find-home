@@ -36,7 +36,8 @@ export const POST = async (req) => {
         }
 
 
-        // use jwt to generate a token for the user (optional, but recommended for session management)
+        // use jwt to generate a token for the user 
+        // (optional, but recommended for session management)
         const token = jwt.sign(
             {
                 userId: user._id,
@@ -44,7 +45,9 @@ export const POST = async (req) => {
                 email: user.email
             },
             process.env.JWT_SECRET,
-            { expiresIn: '1h' }
+            { expiresIn: "1h" }
+            // or use env
+            
         )
 
         return Response.json({

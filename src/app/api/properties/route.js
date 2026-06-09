@@ -99,12 +99,29 @@ export const POST = async (req, res) => {
 // GET request handler to fetch all properties from the database
 export const GET = async (req, res) => {
 
+    // check for authentication
+    const authResult = authenticateRequest(req);
+    console.log("Authentication result:", authResult);
+    if (authResult.error) {
+
+        return authResult.error;
+    }
+
+    // check if the user is an admin or seller
+    const roleResult = authorizeRoles(authResult, ["admin", "seller"]);
+    if (roleResult) {
+        return roleResult;
+    }
+
     try {
         await connectToDb();
 
-        const properties = await PropertyModel.find().
-            populate("listedBy", "firstName email -_id").
-            sort({ createdAt: -1 })
+        // fetch all properties with status "approved", 
+        // populate the listedBy field with the user's first name and 
+        // email, and sort by creation date in descending order
+        const properties = await PropertyModel.find()
+            .populate("listedBy", "firstName email -_id")
+            .sort({ createdAt: -1 })
         return Response.json({ properties }, { status: 200 });
     }
 

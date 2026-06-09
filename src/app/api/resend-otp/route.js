@@ -1,6 +1,6 @@
 import InvitationModel from "@/app/models/InvitationModel"
 import connectToDb from "@/lib/connection"
-import { generateInvitationCode } from "@/lib/helpers"
+import { generateInvitationCode } from "@/lib/generateInviteCode"
 import { sendMail } from "@/lib/send-mail"
 import { VscDebugDisconnect } from "react-icons/vsc"
 

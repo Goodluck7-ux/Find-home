@@ -66,6 +66,13 @@ const PropertySchema = new mongoose.Schema(
       type: [String],
       required: true,
     },
+    // soft delete implementation
+    // instead of deleting a property from the database, 
+    // we will mark it as inactive
+    isActive:{
+      type: Boolean,
+      default: true,
+    },
 
     featuredProperty:{
       type: Boolean,

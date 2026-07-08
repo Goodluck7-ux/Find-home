@@ -37,7 +37,7 @@ export const POST = async (req) => {
             const hashedPassword = await bcrypt.hash(password, salt);
             // create a new user
             // invitation expiration time
-            const expiresAt= new Date( Date.now() +10 *60 *1000);
+            const expiresAt= new Date(Date.now() + 24 * 60 * 60 * 1000);
             const newUser=await User.create({
                 firstName:fullname,
                 email,
